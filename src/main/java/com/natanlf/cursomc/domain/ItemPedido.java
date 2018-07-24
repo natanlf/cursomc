@@ -5,13 +5,15 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;	
 	
-	//Essa notação abaixo diz que é a chave primária de Item pedido
-	@EmbeddedId
+	@JsonIgnore //não vou serializar nem pedido e nem produto
+	@EmbeddedId //Essa notação abaixo diz que é a chave primária de Item pedido
 	private ItemPedidoPK id  = new ItemPedidoPK(); 
 	
 	private Double desconto;
@@ -33,6 +35,7 @@ public class ItemPedido implements Serializable {
 	}
 
 	//o get de produto e pedido foram feitos manualmente
+	@JsonIgnore //para não serializar
 	public Pedido getPedido() {
 		return id.getPedido();
 	}

@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Pedido implements Serializable {
 	
@@ -23,12 +26,16 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@JsonFormat(pattern="dd/MM/yyyy hh:mm")
 	private Date instante;
 	
 	//o id do pagamento vai ser o mesmo id do pedido
+	@JsonManagedReference //serialização pagamento
 	@OneToOne(cascade=CascadeType.ALL,mappedBy="pedido") //para não dar erro transiente ao salvar
 	private Pagamento pagamento;
 	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
@@ -37,6 +44,7 @@ public class Pedido implements Serializable {
 	@JoinColumn(name="endereco_de_entrega_id")
 	private Endereco enderecoDeEntrega;
 	
+	//Aqui tenho a coleção de itens, se eu não colocar nada vai ser serializada e eu quero isso
 	//Garente que não vai ter item repetido para o mesmo pedido
 	//pois tenho na classe ItemPedido o id que referencia a classe auxiliar ItemPedidoPK que tem pedido e produto como id
 	@OneToMany(mappedBy="id.pedido") 
