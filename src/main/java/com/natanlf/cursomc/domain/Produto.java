@@ -29,7 +29,7 @@ public class Produto implements Serializable{
 	private String nome;
 	private Double preco;
 	
-	@JsonBackReference //do outro lado da associação já buscou os objetos, então não busco mais, vai omitir a lista de categorias para cada produto
+	@JsonIgnore //do outro lado da associação já buscou os objetos, então não busco mais, vai omitir a lista de categorias para cada produto
 	@ManyToMany
 	@JoinTable(name="PRODUTO_CATEGORIA", //como é muitos para muitos, teremos uma nova tabela
 		joinColumns = @JoinColumn(name = "produto_id"), //chave estrangeira de produto

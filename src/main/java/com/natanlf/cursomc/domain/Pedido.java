@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Pedido implements Serializable {
@@ -31,11 +30,9 @@ public class Pedido implements Serializable {
 	private Date instante;
 	
 	//o id do pagamento vai ser o mesmo id do pedido
-	@JsonManagedReference //serialização pagamento
 	@OneToOne(cascade=CascadeType.ALL,mappedBy="pedido") //para não dar erro transiente ao salvar
 	private Pagamento pagamento;
 	
-	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
